@@ -3,6 +3,11 @@
 #include <omp.h>
 #include <time.h>
 
+/*
+	* 
+	* Read data from file
+	*
+*/
 void getMatrix(double** matrix, size_t size) {
 	FILE *fp;
 	fp = fopen("./../data.csv", "r");
@@ -17,22 +22,14 @@ void getMatrix(double** matrix, size_t size) {
 	}
 }
 
-void getDataFromFile(double* X, double* Y, size_t size) {
+/*
+	*
+	* Without Cache Optimization
+	*
+*/
+void startNormalWithoutCacheOptimization(double** matrix, size_t size, FILE* out) {
 
-	FILE* fp;
-	fp = fopen("./../data.csv", "r");
-	if (fp) {
-		for (int i = 0; i < size; ++i) {
-			int t = fscanf(fp, "%lf,%lf\n", &X[i], &Y[i]);
-		}
-		fclose(fp);
-	}
-}
-
-
-void startNormal(double** matrix, size_t size) {
-
-	printf("Start Normal\n");
+	fprintf(out, "Start Normal Without Cache Optimization\nNumber Of Vectors: %ld\n", (long) (size * size / 2));
 	double t_start = omp_get_wtime() * 1000;
 
 	double x_mean = 0, y_mean = 0;
@@ -48,12 +45,6 @@ void startNormal(double** matrix, size_t size) {
 
 	double SS_xx = 0;
 	double SS_xy = 0;
-	/*for (int i = 0; i < size; ++i)
-		for (int j = 0; j <= size - 2; j += 2) {
-				SS_xx += (matrix[i][j] - x_mean) * (matrix[i][j] - x_mean); 
-				SS_xy += (matrix[i][j] - x_mean) * (matrix[i][j + 1] - y_mean);
-		}*/
-
 	for (int j = 0; j <= size - 2; j += 2)
 		for (int i = 0; i < size; ++i) {
 				SS_xx += (matrix[i][j] - x_mean) * (matrix[i][j] - x_mean); 
@@ -64,67 +55,85 @@ void startNormal(double** matrix, size_t size) {
 	double b = y_mean - a * x_mean;
 
 	double t_end = omp_get_wtime() * 1000 - t_start;
-	printf("Time: %.2lf ms\n", t_end);
-	printf("Y = %.5lf + %.5lf * X\n", b, a);
+	fprintf(out, "Time: %.2lf ms\n", t_end);
+	fprintf(out, "Y = %.5lf + %.5lf * X\n", b, a);
 }
 
-/*void startNormal(double* X, double* Y, size_t size) {
+/*
+	*
+	* With Cache Optimization
+	*
+*/
+void startNormalWithCacheOptimization(double** matrix, size_t size, FILE* out) {
 
-	printf("Start Normal\n");
+	fprintf(out, "Start Normal With Cache Optimization\nNumber Of Vectors: %ld\n", (long) (size * size / 2));
 	double t_start = omp_get_wtime() * 1000;
 
 	double x_mean = 0, y_mean = 0;
-	for (int i = 0; i < size; ++i) {
-		x_mean += X[i];
-		y_mean += Y[i];
-	}
-	x_mean /= size;
-	y_mean /= size;
+	for (int i = 0; i < size; ++i)
+		for (int j = 0; j < size; ++j) 
+			if (j % 2 == 0)
+				x_mean += matrix[i][j];
+			else 
+				y_mean += matrix[i][j];
+	
+	x_mean /= (size * size / 2);
+	y_mean /= (size * size / 2);
 
 	double SS_xx = 0;
 	double SS_xy = 0;
-	for (int i = 0; i < size; ++i) {
-		SS_xx += (X[i] - x_mean) * (X[i] - x_mean);
-		SS_xy += (X[i] - x_mean) * (Y[i] - y_mean);
-	}
+	for (int i = 0; i < size; ++i)
+		for (int j = 0; j <= size - 2; j += 2) {
+				SS_xx += (matrix[i][j] - x_mean) * (matrix[i][j] - x_mean); 
+				SS_xy += (matrix[i][j] - x_mean) * (matrix[i][j + 1] - y_mean);
+		}
 
 	double a = SS_xy / SS_xx;
 	double b = y_mean - a * x_mean;
 
 	double t_end = omp_get_wtime() * 1000 - t_start;
-	printf("Time: %.2lf ms\n", t_end);
-	printf("Y = %.5lf + %.5lf * X\n", b, a);
-}*/
+	fprintf(out, "Time: %.2lf ms\n", t_end);
+	fprintf(out, "Y = %.5lf + %.5lf * X\n", b, a);
+}
 
-
-void startOpenMp(double* X, double* Y, size_t size) {
+/*
+	*
+	* OpenMP With Parallel Outer Loop
+	*
+*/
+void startOpenMpOutelLoopParallel(double** matrix, size_t size, FILE* out) {
 	
-	printf("Start OpenMP\n");
+	fprintf(out, "Start OpenMP Outer Loop Parallel\nNumber Of Vectors: %ld\n", (long) (size * size / 2));
 	
 	double t_start = omp_get_wtime() * 1000;
 
 	double x_mean = 0, y_mean = 0;
-	#pragma omp parallel num_threads(4)
+	#pragma omp parallel num_threads(2)
 	{
 		#pragma omp for reduction (+:x_mean,y_mean)
-		for (int i = 0; i < size; ++i) {
-			x_mean += X[i];
-			y_mean += Y[i];
-		}
+		for (int i = 0; i < size; ++i) 
+			for (int j = 0; j < size; ++j)
+				if (j % 2 == 0)
+					x_mean += matrix[i][j];
+				else 
+					y_mean += matrix[i][j];
+		
 	}
 
-	x_mean /= size;
-	y_mean /= size;
+	x_mean /= (size * size / 2);
+	y_mean /= (size * size / 2);
 
 	double SS_xx = 0;
 	double SS_xy = 0;
-	#pragma omp parallel num_threads(4)
+	#pragma omp parallel num_threads(2)
 	{
 		#pragma omp for reduction (+:SS_xx,SS_xy)
-		for (int i = 0; i < size; ++i) {
-			SS_xx += (X[i] - x_mean) * (X[i] - x_mean);
-			SS_xy += (X[i] - x_mean) * (Y[i] - y_mean);
-		}
+		for (int i = 0; i < size; ++i) 
+			for (int j = 0; j <= size - 2; j += 2) {
+				SS_xx += (matrix[i][j] - x_mean) * (matrix[i][j] - x_mean);
+				SS_xy += (matrix[i][j] - x_mean) * (matrix[i][j + 1] - y_mean);
+			}
+		
 	}
 	
 	double a = SS_xy / SS_xx;
@@ -132,36 +141,150 @@ void startOpenMp(double* X, double* Y, size_t size) {
 
 	double t_end = omp_get_wtime() * 1000 - t_start;
 
-	printf("Time: %.2lf ms\n", t_end);
-	printf("Y = %.5lf + %.5lf * X\n", b, a);
+	fprintf(out, "Time: %.2lf ms\n", t_end);
+	fprintf(out, "Y = %.5lf + %.5lf * X\n", b, a);
 } 
+
+/*
+	*
+	*	OpenMP With Parallel Inner Loop
+	*
+*/
+void startOpenMpInnerLoopParallel(double** matrix, size_t size, FILE* out) {
+	
+	fprintf(out, "Start OpenMP Inner Loop Parallel\nNumber Of Vectors: %ld\n", (long) (size * size / 2));
+	
+	double t_start = omp_get_wtime() * 1000;
+
+	double x_mean = 0, y_mean = 0;
+	#pragma omp parallel num_threads(2)
+	{
+		for (int i = 0; i < size; ++i) 
+			#pragma omp for reduction (+:x_mean,y_mean)
+			for (int j = 0; j < size; ++j)
+				if (j % 2 == 0)
+					x_mean += matrix[i][j];
+				else 
+					y_mean += matrix[i][j];
+		
+	}
+
+	x_mean /= (size * size / 2);
+	y_mean /= (size * size / 2);
+
+	double SS_xx = 0;
+	double SS_xy = 0;
+	#pragma omp parallel num_threads(2)
+	{
+		for (int i = 0; i < size; ++i) 
+			#pragma omp for reduction (+:SS_xx,SS_xy)
+			for (int j = 0; j <= size - 2; j += 2) {
+				SS_xx += (matrix[i][j] - x_mean) * (matrix[i][j] - x_mean);
+				SS_xy += (matrix[i][j] - x_mean) * (matrix[i][j + 1] - y_mean);
+			}
+		
+	}
+	
+	double a = SS_xy / SS_xx;
+	double b = y_mean - a * x_mean;
+
+	double t_end = omp_get_wtime() * 1000 - t_start;
+
+	fprintf(out, "Time: %.2lf ms\n", t_end);
+	fprintf(out, "Y = %.5lf + %.5lf * X\n", b, a);
+}
 
 int main() {
 
-	// size_t size = 100000000;
-	size_t size = 10000;
-	size_t size2 = 50000000;
+	// number of vectors 50'000'000
+	size_t size_50 = 10000;
 
-	double** matrix = (double **) calloc(size, sizeof(double *));
-	double* X = (double *) calloc(size2, sizeof(double));
-	double* Y = (double *) calloc(size2, sizeof(double));
+	// number of vectors 24'500'000
+	size_t size_24_5 = 7000;
+
+	// number of vectors 12'500'000
+	size_t size_12_5 = 5000;
+	
+	// number of vectors 6'125'000
+	size_t size_6_125 = 3500;
+
+	// number of vectors 1'125'000
+	size_t size_1_25 = 1500;
+
+	double** matrix = (double **) calloc(size_50, sizeof(double *));
 
 	double t_start = omp_get_wtime() * 1000;
-	getMatrix(matrix, size);
-	getDataFromFile(X, Y, size2);
+	getMatrix(matrix, size_50);
 	double t_end = omp_get_wtime() * 1000 - t_start;
 	printf("Time: %.2lf ms\n", t_end);
 
 	printf("Data loaded!\n");
 
-	startNormal(matrix, size);
-	startOpenMp(X, Y, size2);
+	FILE* out;
+	out = fopen("output", "a");
 
-	/*for (int i = 0; i < 10; ++i) {
-		printf("-------------------------------  %d  ---------------------------------\n", i + 1);
-		// startNormal(X, Y, size);
-		// printf("--------------------------------------------------------------------\n");
-		startOpenMp(X, Y, size);
-		printf("--------------------------------------------------------------------\n");
-	}*/
+	// 1'125'000
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithoutCacheOptimization(matrix, size_1_25, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithCacheOptimization(matrix, size_1_25, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpOutelLoopParallel(matrix, size_1_25, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpInnerLoopParallel(matrix, size_1_25, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+
+	fprintf(out, "\n\n");
+
+	// 6'125'000
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithoutCacheOptimization(matrix, size_6_125, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithCacheOptimization(matrix, size_6_125, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpOutelLoopParallel(matrix, size_6_125, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpInnerLoopParallel(matrix, size_6_125, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+
+	fprintf(out, "\n\n");
+
+	// 12'500'000
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithoutCacheOptimization(matrix, size_12_5, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithCacheOptimization(matrix, size_12_5, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpOutelLoopParallel(matrix, size_12_5, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpInnerLoopParallel(matrix, size_12_5, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+
+	fprintf(out, "\n\n");
+
+	// 24'500'000
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithoutCacheOptimization(matrix, size_24_5, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithCacheOptimization(matrix, size_24_5, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpOutelLoopParallel(matrix, size_24_5, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpInnerLoopParallel(matrix, size_24_5, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+
+	fprintf(out, "\n\n");
+
+	// 50'000'000
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithoutCacheOptimization(matrix, size_50, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startNormalWithCacheOptimization(matrix, size_50, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpOutelLoopParallel(matrix, size_50, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+	startOpenMpInnerLoopParallel(matrix, size_50, out);
+	fprintf(out, "-------------------------------------------------------------------\n");
+
+	fprintf(out, "\n###################################################################\n\n");
 }
