@@ -1,115 +1,115 @@
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 1125000
-Time: 48.15 ms
-Y = 24.96952 + 0.00138 * X
+Time: 91.20 ms
+y = 0.00138 * x + 24.96952
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 1125000
-Time: 22.03 ms
-Y = 24.96952 + 0.00138 * X
+Time: 38.38 ms
+y = 0.00138 * x + 24.96952
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 1125000
-Time: 11.72 ms
-Y = 24.96952 + 0.00138 * X
+Time: 48.27 ms
+y = 0.00138 * x + 24.96952
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 1125000
-Time: 13.63 ms
-Y = 24.96952 + 0.00138 * X
+Time: 20.80 ms
+y = 0.00138 * x + 24.96952
 -------------------------------------------------------------------
 
 
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 6125000
-Time: 310.20 ms
-Y = 24.98290 + 0.00042 * X
+Time: 827.65 ms
+y = 0.00042 * x + 24.98290
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 6125000
-Time: 116.10 ms
-Y = 24.98290 + 0.00042 * X
+Time: 161.73 ms
+y = 0.00042 * x + 24.98290
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 6125000
-Time: 75.79 ms
-Y = 24.98290 + 0.00042 * X
+Time: 490.22 ms
+y = 0.00042 * x + 24.98290
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 6125000
-Time: 67.07 ms
-Y = 24.98290 + 0.00042 * X
+Time: 121.27 ms
+y = 0.00042 * x + 24.98290
 -------------------------------------------------------------------
 
 
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 12500000
-Time: 677.66 ms
-Y = 24.99291 + 0.00021 * X
+Time: 2123.58 ms
+y = 0.00021 * x + 24.99291
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 12500000
-Time: 235.94 ms
-Y = 24.99291 + 0.00021 * X
+Time: 348.06 ms
+y = 0.00021 * x + 24.99291
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 12500000
-Time: 124.81 ms
-Y = 24.99291 + 0.00021 * X
+Time: 1046.87 ms
+y = 0.00021 * x + 24.99291
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 12500000
-Time: 128.04 ms
-Y = 24.99291 + 0.00021 * X
+Time: 237.38 ms
+y = 0.00021 * x + 24.99291
 -------------------------------------------------------------------
 
 
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 24500000
-Time: 1542.10 ms
-Y = 24.99923 + 0.00011 * X
+Time: 2591.37 ms
+y = 0.00011 * x + 24.99923
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 24500000
-Time: 462.14 ms
-Y = 24.99923 + 0.00011 * X
+Time: 557.55 ms
+y = 0.00011 * x + 24.99923
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 24500000
-Time: 243.95 ms
-Y = 24.99923 + 0.00011 * X
+Time: 2115.86 ms
+y = 0.00011 * x + 24.99923
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 24500000
-Time: 243.34 ms
-Y = 24.99923 + 0.00011 * X
+Time: 338.81 ms
+y = 0.00011 * x + 24.99923
 -------------------------------------------------------------------
 
 
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 50000000
-Time: 4121.74 ms
-Y = 24.99902 + 0.00007 * X
+Time: 6807.38 ms
+y = 0.00007 * x + 24.99902
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 50000000
-Time: 940.98 ms
-Y = 24.99902 + 0.00007 * X
+Time: 1052.50 ms
+y = 0.00007 * x + 24.99902
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 50000000
-Time: 496.58 ms
-Y = 24.99902 + 0.00007 * X
+Time: 3578.41 ms
+y = 0.00007 * x + 24.99902
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 50000000
-Time: 488.08 ms
-Y = 24.99902 + 0.00007 * X
+Time: 571.66 ms
+y = 0.00007 * x + 24.99902
 -------------------------------------------------------------------
 
 ###################################################################
@@ -117,115 +117,115 @@ Y = 24.99902 + 0.00007 * X
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 1125000
-Time: 17.58 ms
-Y = 24.96952 + 0.00138 * X
+Time: 23.76 ms
+y = 0.00138 * x + 24.96952
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 1125000
-Time: 4.87 ms
-Y = 24.96952 + 0.00138 * X
+Time: 6.93 ms
+y = 0.00138 * x + 24.96952
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 1125000
-Time: 3.39 ms
-Y = 24.96952 + 0.00138 * X
+Time: 14.87 ms
+y = 0.00138 * x + 24.96952
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 1125000
-Time: 8.85 ms
-Y = 24.96952 + 0.00138 * X
+Time: 2.79 ms
+y = 0.00138 * x + 24.96952
 -------------------------------------------------------------------
 
 
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 6125000
-Time: 195.04 ms
-Y = 24.98290 + 0.00042 * X
+Time: 259.25 ms
+y = 0.00042 * x + 24.98290
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 6125000
-Time: 27.40 ms
-Y = 24.98290 + 0.00042 * X
+Time: 33.00 ms
+y = 0.00042 * x + 24.98290
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 6125000
-Time: 14.27 ms
-Y = 24.98290 + 0.00042 * X
+Time: 151.68 ms
+y = 0.00042 * x + 24.98290
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 6125000
-Time: 21.18 ms
-Y = 24.98290 + 0.00042 * X
+Time: 23.14 ms
+y = 0.00042 * x + 24.98290
 -------------------------------------------------------------------
 
 
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 12500000
-Time: 460.02 ms
-Y = 24.99291 + 0.00021 * X
+Time: 576.82 ms
+y = 0.00021 * x + 24.99291
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 12500000
-Time: 55.07 ms
-Y = 24.99291 + 0.00021 * X
+Time: 82.39 ms
+y = 0.00021 * x + 24.99291
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 12500000
-Time: 29.23 ms
-Y = 24.99291 + 0.00021 * X
+Time: 552.50 ms
+y = 0.00021 * x + 24.99291
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 12500000
-Time: 38.76 ms
-Y = 24.99291 + 0.00021 * X
+Time: 49.62 ms
+y = 0.00021 * x + 24.99291
 -------------------------------------------------------------------
 
 
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 24500000
-Time: 980.05 ms
-Y = 24.99923 + 0.00011 * X
+Time: 2030.65 ms
+y = 0.00011 * x + 24.99923
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 24500000
-Time: 107.38 ms
-Y = 24.99923 + 0.00011 * X
+Time: 171.62 ms
+y = 0.00011 * x + 24.99923
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 24500000
-Time: 55.66 ms
-Y = 24.99923 + 0.00011 * X
+Time: 1307.23 ms
+y = 0.00011 * x + 24.99923
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 24500000
-Time: 71.50 ms
-Y = 24.99923 + 0.00011 * X
+Time: 91.23 ms
+y = 0.00011 * x + 24.99923
 -------------------------------------------------------------------
 
 
 -------------------------------------------------------------------
 Start Normal Without Cache Optimization
 Number Of Vectors: 50000000
-Time: 2199.84 ms
-Y = 24.99902 + 0.00007 * X
+Time: 4862.91 ms
+y = 0.00007 * x + 24.99902
 -------------------------------------------------------------------
 Start Normal With Cache Optimization
 Number Of Vectors: 50000000
-Time: 214.75 ms
-Y = 24.99902 + 0.00007 * X
+Time: 260.09 ms
+y = 0.00007 * x + 24.99902
 -------------------------------------------------------------------
-Start OpenMP Outer Loop Parallel
+Start OpenMP Without Cache Optimization
 Number Of Vectors: 50000000
-Time: 113.47 ms
-Y = 24.99902 + 0.00007 * X
+Time: 2375.69 ms
+y = 0.00007 * x + 24.99902
 -------------------------------------------------------------------
-Start OpenMP Inner Loop Parallel
+Start OpenMP With Cache Optimization
 Number Of Vectors: 50000000
-Time: 136.65 ms
-Y = 24.99902 + 0.00007 * X
+Time: 213.28 ms
+y = 0.00007 * x + 24.99902
 -------------------------------------------------------------------
 
 ###################################################################
